@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 
@@ -26,8 +24,17 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       home: Scaffold(
         appBar: AppBar(
-          title: Text("Hello"),
-        ),
+            title: Text(
+              "Pokemon",
+              style: TextStyle(color: Colors.black),
+            ),
+            backgroundColor: Colors.white,
+            elevation: 0),
+        body: ListView.builder(
+            itemCount: 10,
+            itemBuilder: (item, index) {
+              return Text("Pokemon $index");
+            }),
       ),
     );
   }
