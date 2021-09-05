@@ -53,7 +53,7 @@ class _MyApp extends State<MyApp> {
                     );
                   });
             } else {
-              return Text('${snapshot.error}');
+              return Center(child: CircularProgressIndicator());
             }
           },
         ),
@@ -85,11 +85,9 @@ class PokemonCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            "Pokemon $name",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
+                            name,
+                            style: TextStyle(fontSize: 16),
                           ),
-                          Text("Fire")
                         ]),
                   ],
                 ))));
@@ -113,17 +111,10 @@ class Response {
     next = json['next'];
     previous = json['previous'];
     if (json['results'] != null) {
-      pokemon = json['results'].map((x) => Pokemon.fromJson(x)).toList();
+      pokemon = json['results']
+          .map((x) => Pokemon(name: x['name'], url: x['url']))
+          .toList();
     }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['count'] = this.count;
-    data['next'] = this.next;
-    data['previous'] = this.previous;
-    data['results'] = this.pokemon.map((v) => v.toJson()).toList();
-    return data;
   }
 }
 
@@ -132,16 +123,4 @@ class Pokemon {
   String url = '';
 
   Pokemon({required this.name, required this.url});
-
-  Pokemon.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    url = json['url'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['url'] = this.url;
-    return data;
-  }
 }
